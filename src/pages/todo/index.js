@@ -31,7 +31,7 @@ function Todo() {
   function Delete(index) {
     todos.splice(index, 1)
     setTodos(todos)
-    console.log(todos)
+    console.log("Todos: ", todos)
   }
 
   return (
