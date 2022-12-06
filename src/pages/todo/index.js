@@ -1,5 +1,3 @@
-//@ts-check
-
 import React, { useState } from "react";
 import {
   Text,
@@ -20,19 +18,12 @@ function Todo() {
 
   function Add() {
     if (todo.length !== 0) {
-      var todosCpy = todos;
-      todosCpy.push(todo);
+      setTodos([...todos, todo]);
       console.log(todos);
-      setTodos(todosCpy);
-      setTodo("");
     }
   }
 
-  function Delete(index) {
-    todos.splice(index, 1)
-    setTodos(todos)
-    console.log("Todos: ", todos)
-  }
+  const deleteTodo = (todoIndex) => setTodos(oldTodos => oldTodos.filter((_, index) => index !== todoIndex))
 
   return (
     <LinearGradient
@@ -66,9 +57,7 @@ function Todo() {
                 <View style={styles.btnContainer}>
                   <TouchableOpacity style={styles.risk}></TouchableOpacity>
                   <TouchableOpacity
-                    onPress={() => {
-                      Delete(index)
-                    }}
+                    onPress={() => {deleteTodo(index)}}
                     style={styles.delete}
                   ></TouchableOpacity>
                 </View>
