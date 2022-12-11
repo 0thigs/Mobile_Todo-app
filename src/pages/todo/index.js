@@ -27,8 +27,6 @@ function Todo() {
     }
   }
 
-  console.log(result)
-
   const deleteTodo = (todoIndex) =>
     setTodos((oldTodos) => oldTodos.filter((_, index) => index !== todoIndex));
 
@@ -67,7 +65,7 @@ function Todo() {
             showsVerticalScrollIndicator={false}
             style={styles.componentContainer}
           >
-            {result = todos.map((todo, index) => (
+            {todos.map((todo, index) => (
               <View style={styles.BlockContainer} key={index}>
                 <Text style={styles.content}>{todo}</Text>
                 <View style={styles.btnContainer}>
