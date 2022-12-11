@@ -1,3 +1,5 @@
+//@ts-check
+
 import React, { useState } from "react";
 import {
   Text,
@@ -12,6 +14,8 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
+let result = null
+
 function Todo() {
   const [todos, setTodos] = useState([]);
   const [todo, setTodo] = useState("");
@@ -23,7 +27,19 @@ function Todo() {
     }
   }
 
-  const deleteTodo = (todoIndex) => setTodos(oldTodos => oldTodos.filter((_, index) => index !== todoIndex))
+  console.log(result)
+
+  const deleteTodo = (todoIndex) =>
+    setTodos((oldTodos) => oldTodos.filter((_, index) => index !== todoIndex));
+
+  function updateState(state, item, itemIndex) {
+    return Object.assign({}, state, { [itemIndex]: item });
+  }
+
+  const riskTodo = (todoIndex) =>
+    setTodos((o) =>
+      o.map((todo, i) => (i == todoIndex ? { ...todo, risked: true } : todo))
+    );
 
   return (
     <LinearGradient
@@ -51,13 +67,20 @@ function Todo() {
             showsVerticalScrollIndicator={false}
             style={styles.componentContainer}
           >
-            {todos.map((todo, index) => (
+            {result = todos.map((todo, index) => (
               <View style={styles.BlockContainer} key={index}>
                 <Text style={styles.content}>{todo}</Text>
                 <View style={styles.btnContainer}>
-                  <TouchableOpacity style={styles.risk}></TouchableOpacity>
                   <TouchableOpacity
-                    onPress={() => {deleteTodo(index)}}
+                    onPress={() => {
+                      riskTodo(index);
+                    }}
+                    style={styles.risk}
+                  ></TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      deleteTodo(index);
+                    }}
                     style={styles.delete}
                   ></TouchableOpacity>
                 </View>
