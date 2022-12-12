@@ -1,5 +1,3 @@
-//@ts-check
-
 import React, { useState } from "react";
 import {
   Text,
@@ -14,30 +12,27 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-let result = null
-
 function Todo() {
-  const [todos, setTodos] = useState([]);
   const [todo, setTodo] = useState("");
+  const [todos, setTodos] = useState([]);
 
   function Add() {
     if (todo.length !== 0) {
-      setTodos([...todos, todo]);
-      console.log(todos);
+      if (todo.length <= 35) {
+        setTodos([...todos, todo]);
+        console.log(todos);
+        setTodo("");
+      } else {
+        alert("O limite de Caracteres foi Atingido!")
+      }
     }
+
+    setTodo(null)
   }
 
-  const deleteTodo = (todoIndex) =>
+  const deleteTodo = (todoIndex) => {
     setTodos((oldTodos) => oldTodos.filter((_, index) => index !== todoIndex));
-
-  function updateState(state, item, itemIndex) {
-    return Object.assign({}, state, { [itemIndex]: item });
   }
-
-  const riskTodo = (todoIndex) =>
-    setTodos((o) =>
-      o.map((todo, i) => (i == todoIndex ? { ...todo, risked: true } : todo))
-    );
 
   return (
     <LinearGradient
@@ -69,12 +64,6 @@ function Todo() {
               <View style={styles.BlockContainer} key={index}>
                 <Text style={styles.content}>{todo}</Text>
                 <View style={styles.btnContainer}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      riskTodo(index);
-                    }}
-                    style={styles.risk}
-                  ></TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
                       deleteTodo(index);
@@ -161,16 +150,9 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   btnContainer: {
-    width: 55,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-  risk: {
-    backgroundColor: "yellow",
-    height: 24,
-    width: 24,
-    borderRadius: 100,
   },
   delete: {
     backgroundColor: "red",
